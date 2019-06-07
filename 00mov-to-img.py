@@ -22,4 +22,4 @@ def save_all_frames(video_path, dir_path, basename, ext='jpg'):
         else:
             return
 
-save_all_frames('data/video/short.mp4', 'data/img/result', '')
+save_all_frames('data/video/project.mp4', 'data/img/result10', '')
