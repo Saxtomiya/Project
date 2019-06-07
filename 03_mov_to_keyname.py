@@ -1,8 +1,8 @@
-# -*- coding: UTF-8 -*- 
- 
+# -*- coding: UTF-8 -*-
+
 import cv2
-import math 
-import numpy as np 
+import math
+import numpy as np
 import os
 import copy
 from PIL import Image, ImageOps
@@ -19,8 +19,8 @@ KeyNameList = [
 def getname(num1, num2, check):
     answers = []
     # 画像の読み込み
-    img_src1 = cv2.imread("data/img/result11/{0:03d}.jpg".format(num1), 1)
-    img_src2 = cv2.imread("data/img/result11/{0:03d}.jpg".format(num2), 1)
+    img_src1 = cv2.imread("data/img/02crip/{0:03d}.jpg".format(num1), 1)
+    img_src2 = cv2.imread("data/img/02crip/{0:03d}.jpg".format(num2), 1)
     # 背景画像との差分を算出
     img_diff = cv2.absdiff(img_src2, img_src1)
     # 差分を二値化
@@ -99,6 +99,7 @@ def getname(num1, num2, check):
     if keylist == []:
         return [False, keylist]
     else:
+        #デバッグ用　差分の取れた場所と鍵盤を表示
 #        cv2.imshow("dst", dst)
 #        cv2.imshow("img_src1", img_src1)
 #        cv2.imshow("img_src2", img_src2)
@@ -130,8 +131,6 @@ for i in range(50, 400, 3):
         onetime.append(data[1])
     numlist.append(data[1])
     namelist.append(onetime)
-
-print(namelist)
 
 f = open('data/score.txt', 'w')
 for x in namelist:

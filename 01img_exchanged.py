@@ -9,8 +9,8 @@ from PIL import Image, ImageOps
 
 
 def get_yy(num):#差分から鍵盤の位置を切り抜く関数
-    img_src1 = cv2.imread("data/img/result10/{0:03d}.jpg".format(num), 1)
-    img_src2 = cv2.imread("data/img/result10/{0:03d}.jpg".format(num+200), 1)
+    img_src1 = cv2.imread("data/img/01image/{0:03d}.jpg".format(num), 1)
+    img_src2 = cv2.imread("data/img/01image/{0:03d}.jpg".format(num+200), 1)
 
     img_diff = cv2.absdiff(img_src2, img_src1)
     # 差分を二値化
@@ -40,7 +40,7 @@ def get_point(num, yy):#鍵盤を縦にまっすぐに変換するための4点�
     L1 = 0
     R2 = 0
     L2 = 0
-    img_src = cv2.imread("data/img/result10/{0:03d}.jpg".format(num), 1)
+    img_src = cv2.imread("data/img/01image/{0:03d}.jpg".format(num), 1)
     crip = img_src[yy+5:yy+105, 100:1180]
     gray = cv2.cvtColor(crip, cv2.COLOR_RGB2GRAY)
     edge = cv2.Canny(gray, 180, 250, True)
@@ -60,10 +60,8 @@ def get_point(num, yy):#鍵盤を縦にまっすぐに変換するための4点�
             if L1 == L2:
                 point[2][0] = i
                 break
-    print(R1)
     for i in range(300):
         if edge[98][1079-i] != 0:
-            print(R2)
             R2 += 5
             if R1 <= R2:
                 point[3][0] = 1079-i
@@ -74,7 +72,7 @@ def get_point(num, yy):#鍵盤を縦にまっすぐに変換するための4点�
 def make_img(num, yy, point):#画像をクリッピング、射影変換する関数。
     answers = []
     # 画像の読み込み
-    img_src1 = cv2.imread("data/img/result10/{0:03d}.jpg".format(num), 1)
+    img_src1 = cv2.imread("data/img/01image/{0:03d}.jpg".format(num), 1)
     img_cri01 = img_src1[yy+5:yy+105, 100:1180]
     cri_gray = cv2.cvtColor(img_cri01, cv2.COLOR_RGB2GRAY)
     cri_edge = cv2.Canny(cri_gray, 100, 100, True)
@@ -82,19 +80,10 @@ def make_img(num, yy, point):#画像をクリッピング、射影変換する�
     perspective2 = np.float32([[100, 0], [1180, 0], [100, 100], [1180, 100]])
     psp_matrix = cv2.getPerspectiveTransform(perspective1, perspective2)
     img_psp = cv2.warpPerspective(img_cri01, psp_matrix, (1280, 100))
-
-    #肌色検出とその部位の削除
-#    hsv = cv2.cvtColor(img_psp, cv2.COLOR_BGR2HSV)
-#    lower_yellow = np.array([0, 20, 100])
-#    upper_yellow = np.array([180, 170, 200])
-#    img_mask2 = cv2.inRange(hsv, lower_yellow, upper_yellow)
-#    img_mask2 = cv2.bitwise_not(img_mask2)
-#    result = cv2.bitwise_and(img_psp, img_psp, mask=img_mask2)
     result = img_psp[0:100, 100:1180]
-    cv2.imwrite("data/img/result11/{0:03d}.jpg".format(num), result)#result02に変換した画像を保存
+    cv2.imwrite("data/img/02crip/{0:03d}.jpg".format(num), result)#result02に変換した画像を保存
 
 ydata = get_yy(100)
-print(ydata)
 point = get_point(1, ydata)
 
 for x in range(464):

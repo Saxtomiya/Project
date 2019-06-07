@@ -1,7 +1,8 @@
 import cv2
 import os
 
-def save_all_frames(video_path, dir_path, basename, ext='jpg'):
+
+def save_frames(video_path, dir_path, basename, ext='jpg'):
     cap = cv2.VideoCapture(video_path)
 
     if not cap.isOpened():
@@ -22,4 +23,4 @@ def save_all_frames(video_path, dir_path, basename, ext='jpg'):
         else:
             return
 
-save_all_frames('data/video/project.mp4', 'data/img/result10', '')
+save_frames('input/project.mp4', 'data/img/01image', '')
